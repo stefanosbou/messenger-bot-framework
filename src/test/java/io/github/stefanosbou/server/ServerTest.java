@@ -91,7 +91,7 @@ public class ServerTest {
 	}
 	
 	@Test
-	public void testServerBadRequest(TestContext context) {
+	public void testServerBadRequestParams(TestContext context) {
 	    final Async async = context.async();
 	    String ENDPOINT = properties.getProperty("endpoint");
 	    int port = Integer.parseInt(properties.getProperty("port"));
@@ -103,6 +103,20 @@ public class ServerTest {
 	        context.assertTrue(body.toString().contains("EMPTY_OR_BAD_REQUEST"));
 	        async.complete();
 	      });
+	    }).end();
+	}
+	
+	@Test
+	public void testServerStatusOK(TestContext context) {
+		// Facebook requires no matter what to respond with status code 200
+	    final Async async = context.async();
+	    String ENDPOINT = properties.getProperty("endpoint");
+	    int port = Integer.parseInt(properties.getProperty("port"));
+
+	    vertx.createHttpClient().get(port, "localhost", ENDPOINT,
+	     response -> {
+	        context.assertTrue(response.statusCode() == 200);
+	        async.complete();
 	    }).end();
 	}
 	

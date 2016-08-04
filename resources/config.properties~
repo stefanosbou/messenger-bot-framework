@@ -1,3 +1,0 @@
-port=8080
-verify_token=VERIFY_TOKEN
-endpoint=webhook/subscribe

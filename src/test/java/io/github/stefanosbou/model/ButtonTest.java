@@ -10,6 +10,21 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/*
+ * 
+ * {
+            "type":"web_url",
+            "url":"https://petersapparel.parseapp.com",
+            "title":"Show Website"
+          },
+          {
+            "type":"postback",
+            "title":"Start Chatting",
+            "payload":"USER_DEFINED_PAYLOAD"
+          }
+ * 
+ * */
+
 public class ButtonTest {
 	String TYPE1 = "web_url";
 	String URL1 = "https://petersapparel.parseapp.com";
