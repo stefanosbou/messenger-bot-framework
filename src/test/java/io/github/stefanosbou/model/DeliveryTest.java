@@ -49,7 +49,7 @@ public class DeliveryTest {
 	}
 	 
 	@Test
-	public void testButtonModel() {
+	public void testDeliveryModel() {
 		assertEquals(MID1, deliveryObj1.getMids().get(0));
 	    assertEquals(WATERMARK1, deliveryObj1.getWatermark());
 	    assertEquals(SEQ1, deliveryObj1.getSeq());

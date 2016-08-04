@@ -51,7 +51,7 @@ public class CoordinatesTest {
 	}
 	
 	@Test
-	public void testButtonModel() {
+	public void testCoordinatesModel() {
 	      assertEquals(LONGITUDE1, locationObj1.getLongitude(), DELTA);
 	      assertEquals(LATITUDE1, locationObj1.getLatitude(), DELTA);
 	      

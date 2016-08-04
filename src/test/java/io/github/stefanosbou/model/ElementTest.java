@@ -65,7 +65,7 @@ public class ElementTest {
 	}
 	
 	@Test
-	public void testButtonModel() {
+	public void testElementModel() {
 		assertEquals(TITLE1, elemObj1.getTitle());
 	    assertEquals(SUBTITLE1, elemObj1.getSubtitle());
 	    assertEquals(IMAGEURL1, elemObj1.getImageUrl());
