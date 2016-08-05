@@ -10,17 +10,19 @@ import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(VertxUnitRunner.class)
 public class ServerTest {
-	private Vertx vertx;
-	Properties properties;
+	private static Vertx vertx;
+	static Properties properties;
 	
-	@Before
-	public void setUp(TestContext context) {
+	@BeforeClass
+	public static void setUp(TestContext context) {
 		properties = new Properties();
 		try {
 			properties.load(new FileInputStream(
@@ -108,7 +110,7 @@ public class ServerTest {
 	
 	@Test
 	public void testServerStatusOK(TestContext context) {
-		// Facebook requires no matter what to respond with status code 200
+		// Facebook requires, no matter what, to respond with status code 200
 	    final Async async = context.async();
 	    String ENDPOINT = properties.getProperty("endpoint");
 	    int port = Integer.parseInt(properties.getProperty("port"));
@@ -120,8 +122,8 @@ public class ServerTest {
 	    }).end();
 	}
 	
-	@After
-	public void tearDown(TestContext context) {
+	@AfterClass
+	public static void tearDown(TestContext context) {
 	    vertx.close(context.asyncAssertSuccess());
 	}
 	

@@ -9,6 +9,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * 
+text must be UTF-8 and has a 320 character limit
+You cannot send a text and an attachment together, please read the Send API Reference for more details
+ * 
+ * 
+ * */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
 	@JsonProperty("is_echo")
