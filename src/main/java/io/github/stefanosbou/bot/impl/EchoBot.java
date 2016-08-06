@@ -31,9 +31,19 @@ public class EchoBot extends MessengerBot{
 //				  						.postback("USER_DEFINED_PAYLOAD")
 //				  				.build();
 		Message replyMessage = Message.builder()
-								.addText(text)
-								.build();
-		
+								.addTemplate()
+								.buttonTemplate()
+									.mainBodyText("Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
+									.addButton()
+										.buttonTitle("stefanos")
+										.postback("me")
+									.addButton()
+										.buttonTitle("other")
+										.postback("other")
+									.addButton()
+										.buttonTitle("other")
+										.postback("other")	
+									.build();
 		replies.add(Utils.objectToJson(replyMessage));
 		return replies;
 	}

@@ -1,6 +1,7 @@
 package io.github.stefanosbou.model;
 
 import io.github.stefanosbou.enums.MessageType;
+import io.github.stefanosbou.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,9 +184,18 @@ public class Message {
 	
 	public interface TemplateType {
 		GenericTemplatePayload genericTemplate();
-//		ButtonTemplatePayload buttonTemplate();
+		ButtonTemplatePayload buttonTemplate();
 //		ReceiptTemplatePayload receiptTemplate();
 	}
+	
+	public interface ButtonTemplatePayload{
+		ButtonTemplateAdd mainBodyText(String text);
+	}
+	public interface ButtonTemplateAdd{
+		AddButton addButton();
+	}
+
+	
 	public interface GenericTemplatePayload {
 		AddElementTitle addElement();
 	}
@@ -220,7 +230,7 @@ public class Message {
 			RichMediaPayload, TemplateType, 
 			GenericTemplatePayload, AddElementTitle, 
 			Build, AddNonMandatory, AddButton, 
-			AddButtonType, AddButtonMore {
+			AddButtonType, AddButtonMore, ButtonTemplatePayload, ButtonTemplateAdd {
 		
 		private String text;
 		private MessageType type;
@@ -232,27 +242,37 @@ public class Message {
 		public Message build() {
 			return new Message(this);
 		}
+		/*
+		 * 
+		 * Text attachment
+		 * 
+		 * */
     	@Override
     	public Build addText(String text) {
     		this.type = MessageType.text;
         	text = Objects.requireNonNull(text);
-            	int maxLength = 320;
-            	text = text.length() > maxLength ? text.substring(0, maxLength) : text;
-            	this.text = text;
-            	return this;
+            int maxLength = 320;
+            text = text.length() > maxLength ? text.substring(0, maxLength) : text;
+            this.text = text;
+            return this;
     	}
         @Override
 		public Build url(String url) {
         	this.url = Objects.requireNonNull(url);
-            	return this;
+            return this;
+        }
+        /*
+		 * 
+		 * Rich Media attachment (image, video, audio, file)
+		 * 
+		 * */
+        @Override
+        public AttachmentType addAttachment() {
+        	return this;
         }
         @Override
         public RichMediaPayload image() {
         	this.type = MessageType.image;
-        	return this;
-        }
-        @Override
-        public AttachmentType addAttachment() {
         	return this;
         }
         @Override
@@ -270,10 +290,16 @@ public class Message {
 			this.type = MessageType.file;
 			return this;
 		}
+		 /*
+		 * 
+		 * Template attachment (generic, button, receipt)
+		 * 
+		 * */
 		@Override
 		public TemplateType addTemplate() {
 			return this;
 		}
+		// Generic template
 		@Override
 		public GenericTemplatePayload genericTemplate() {
 			this.type = MessageType.genericTemplate;
@@ -286,6 +312,7 @@ public class Message {
 			if(elements.size() < 10) {
 				elements.add(new Element());
 				elements.get(elements.size()-1).setButtons(new ArrayList<Button>());
+				buttons = elements.get(elements.size()-1).getButtons();
 			} else {
 				   // do nothing or remove first and append the new
 			}
@@ -330,13 +357,31 @@ public class Message {
 		}
 		@Override
 		public AddButton addButton() {
-			if (elements != null && !elements.isEmpty()) {
-				buttons = elements.get(elements.size()-1).getButtons();
-				if(buttons.size() < 3) {
-					buttons.add(new Button());
-				} else {
-					   // do nothing or remove first and append the new
-				}
+//			if (elements != null && !elements.isEmpty()) {
+//				buttons = elements.get(elements.size()-1).getButtons();
+//				if(buttons.size() < 3) {
+//					buttons.add(new Button());
+//				} else {
+//					   // do nothing or remove first and append the new
+//				}
+//			}
+			if(buttons == null)
+				buttons = new ArrayList<Button>();
+			if(buttons.size() < 3) {
+				buttons.add(new Button());
+			} else {
+				   // do nothing or remove first and append the new
+			}
+			return this;
+		}
+		@Override
+		public AddButtonType buttonTitle(String title) {
+//			title max 20chars
+			int maxLength = 20;
+			title = title.length() > maxLength ? title.substring(0, maxLength) : title;
+			
+			if (buttons != null && !buttons.isEmpty()) {
+				buttons.get(buttons.size()-1).setTitle(title);
 			}
 			return this;
 		}
@@ -363,16 +408,32 @@ public class Message {
 			return this;
 		}
 		@Override
-		public AddButtonType buttonTitle(String title) {
-//			title max 80chars
-			int maxLength = 80;
-			title = title.length() > maxLength ? title.substring(0, maxLength) : title;
-			
-			if (buttons != null && !buttons.isEmpty()) {
-				buttons.get(buttons.size()-1).setTitle(title);
-			}
+		public ButtonTemplatePayload buttonTemplate() {
+			this.type = MessageType.buttonTemplate;
 			return this;
 		}
+//		@Override
+//		public AddButton button() {
+//			if(buttons == null)
+//				buttons = new ArrayList<Button>();
+//			if(buttons.size() < 3) {
+//				buttons.add(new Button());
+//			} else {
+//				   // do nothing or remove first and append the new
+//			}
+//			return this;
+//		}
+		@Override
+		public ButtonTemplateAdd mainBodyText(String text) {
+        	text = Objects.requireNonNull(text);
+            int maxLength = 320;
+            text = text.length() > maxLength ? text.substring(0, maxLength) : text;
+            this.text = text;
+            return this;
+		}
+		
+		
+		// Button template
 		
 	}
     	private Message(Builder builder) {
@@ -389,6 +450,15 @@ public class Message {
 	    		if(builder.type.getType().equals("generic")){
 	    			Payload payload = new Payload();
 	        		payload.setElements(builder.elements);
+	    			payload.setTemplateType(builder.type.getType());
+	        		Attachment attachment = new Attachment();
+	        		attachment.setType(builder.type.getCategory());
+	        		attachment.setPayload(payload);
+	        		this.attachment = attachment;
+	    		}else if(builder.type.getType().equals("button")){
+	    			Payload payload = new Payload();
+	    			payload.setText(builder.text);
+	        		payload.setButtons(builder.buttons);
 	    			payload.setTemplateType(builder.type.getType());
 	        		Attachment attachment = new Attachment();
 	        		attachment.setType(builder.type.getCategory());
