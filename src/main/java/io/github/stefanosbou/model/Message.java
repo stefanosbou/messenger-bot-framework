@@ -172,14 +172,14 @@ public class Message {
 	}
 	
 	public interface AttachmentType {
-        RichMediaPayload image();
+		RichMediaPayload image();
         RichMediaPayload video();
         RichMediaPayload audio();
         RichMediaPayload file();
-    }
+	}
 	public interface RichMediaPayload {
-        Build url(String url);
-    }
+		Build url(String url);
+	}
 	
 	public interface TemplateType {
 		GenericTemplatePayload genericTemplate();
@@ -222,16 +222,16 @@ public class Message {
 			Build, AddNonMandatory, AddButton, 
 			AddButtonType, AddButtonMore {
 		
-    	private String text;
-    	private MessageType type;
+		private String text;
+		private MessageType type;
 		private String url;
 		private List<Element> elements = null;
 		private List<Button> buttons = null;
 
-        @Override
-        public Message build() {
-            return new Message(this);
-        }
+		@Override
+		public Message build() {
+			return new Message(this);
+		}
         @Override
         public Build addText(String text) {
         	this.type = MessageType.text;
@@ -241,31 +241,30 @@ public class Message {
             this.text = text;
             return this;
         }
-		@Override
+        @Override
 		public Build url(String url) {
-			Objects.requireNonNull(url);
-            this.url = url;
+            this.url = Objects.requireNonNull(url);
             return this;
-		}
-		@Override
-		public RichMediaPayload image() {
-			this.type = MessageType.image;
-			return this;
-		}
-		@Override
-		public AttachmentType addAttachment() {
-			return this;
-		}
-		@Override
-		public RichMediaPayload video() {
-			this.type = MessageType.video;
-			return this;
-		}
-		@Override
-		public RichMediaPayload audio() {
-			this.type = MessageType.audio;
-			return this;
-		}
+        }
+        @Override
+        public RichMediaPayload image() {
+        	this.type = MessageType.image;
+        	return this;
+        }
+        @Override
+        public AttachmentType addAttachment() {
+        	return this;
+        }
+        @Override
+        public RichMediaPayload video() {
+        	this.type = MessageType.video;
+        	return this;
+        }
+        @Override
+        public RichMediaPayload audio() {
+        	this.type = MessageType.audio;
+        	return this;
+        }
 		@Override
 		public RichMediaPayload file() {
 			this.type = MessageType.file;
