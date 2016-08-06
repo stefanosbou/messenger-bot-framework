@@ -232,39 +232,39 @@ public class Message {
 		public Message build() {
 			return new Message(this);
 		}
-        	@Override
-        	public Build addText(String text) {
-        		this.type = MessageType.text;
-	        	text = Objects.requireNonNull(text);
-	            	int maxLength = 320;
-	            	text = text.length() > maxLength ? text.substring(0, maxLength) : text;
-	            	this.text = text;
-	            	return this;
-        	}
-	        @Override
-			public Build url(String url) {
-	        	this.url = Objects.requireNonNull(url);
-	            	return this;
-	        }
-	        @Override
-	        public RichMediaPayload image() {
-	        	this.type = MessageType.image;
-	        	return this;
-	        }
-	        @Override
-	        public AttachmentType addAttachment() {
-	        	return this;
-	        }
-	        @Override
-	        public RichMediaPayload video() {
-	        	this.type = MessageType.video;
-	        	return this;
-	        }
-	        @Override
-	        public RichMediaPayload audio() {
-	        	this.type = MessageType.audio;
-	        	return this;
-	        }
+    	@Override
+    	public Build addText(String text) {
+    		this.type = MessageType.text;
+        	text = Objects.requireNonNull(text);
+            	int maxLength = 320;
+            	text = text.length() > maxLength ? text.substring(0, maxLength) : text;
+            	this.text = text;
+            	return this;
+    	}
+        @Override
+		public Build url(String url) {
+        	this.url = Objects.requireNonNull(url);
+            	return this;
+        }
+        @Override
+        public RichMediaPayload image() {
+        	this.type = MessageType.image;
+        	return this;
+        }
+        @Override
+        public AttachmentType addAttachment() {
+        	return this;
+        }
+        @Override
+        public RichMediaPayload video() {
+        	this.type = MessageType.video;
+        	return this;
+        }
+        @Override
+        public RichMediaPayload audio() {
+        	this.type = MessageType.audio;
+        	return this;
+        }
 		@Override
 		public RichMediaPayload file() {
 			this.type = MessageType.file;
@@ -373,8 +373,8 @@ public class Message {
 			}
 			return this;
 		}
+		
 	}
-
     	private Message(Builder builder) {
 	    	if(builder.type.getCategory().equals("text")){
 	    		this.text = builder.text;
@@ -395,7 +395,7 @@ public class Message {
 	        		attachment.setPayload(payload);
 	        		this.attachment = attachment;
 	    		}
+    		}
     	}
-    }
 
 }
