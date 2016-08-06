@@ -173,9 +173,9 @@ public class Message {
 	
 	public interface AttachmentType {
 		RichMediaPayload image();
-        RichMediaPayload video();
-        RichMediaPayload audio();
-        RichMediaPayload file();
+		RichMediaPayload video();
+		RichMediaPayload audio();
+		RichMediaPayload file();
 	}
 	public interface RichMediaPayload {
 		Build url(String url);
@@ -232,39 +232,39 @@ public class Message {
 		public Message build() {
 			return new Message(this);
 		}
-        @Override
-        public Build addText(String text) {
-        	this.type = MessageType.text;
-            text = Objects.requireNonNull(text);
-            int maxLength = 320;
-            text = text.length() > maxLength ? text.substring(0, maxLength) : text;
-            this.text = text;
-            return this;
-        }
-        @Override
-		public Build url(String url) {
-            this.url = Objects.requireNonNull(url);
-            return this;
-        }
-        @Override
-        public RichMediaPayload image() {
-        	this.type = MessageType.image;
-        	return this;
-        }
-        @Override
-        public AttachmentType addAttachment() {
-        	return this;
-        }
-        @Override
-        public RichMediaPayload video() {
-        	this.type = MessageType.video;
-        	return this;
-        }
-        @Override
-        public RichMediaPayload audio() {
-        	this.type = MessageType.audio;
-        	return this;
-        }
+        	@Override
+        	public Build addText(String text) {
+        		this.type = MessageType.text;
+	        	text = Objects.requireNonNull(text);
+	            	int maxLength = 320;
+	            	text = text.length() > maxLength ? text.substring(0, maxLength) : text;
+	            	this.text = text;
+	            	return this;
+        	}
+	        @Override
+			public Build url(String url) {
+	        	this.url = Objects.requireNonNull(url);
+	            	return this;
+	        }
+	        @Override
+	        public RichMediaPayload image() {
+	        	this.type = MessageType.image;
+	        	return this;
+	        }
+	        @Override
+	        public AttachmentType addAttachment() {
+	        	return this;
+	        }
+	        @Override
+	        public RichMediaPayload video() {
+	        	this.type = MessageType.video;
+	        	return this;
+	        }
+	        @Override
+	        public RichMediaPayload audio() {
+	        	this.type = MessageType.audio;
+	        	return this;
+	        }
 		@Override
 		public RichMediaPayload file() {
 			this.type = MessageType.file;
@@ -375,26 +375,26 @@ public class Message {
 		}
 	}
 
-    private Message(Builder builder) {
-    	if(builder.type.getCategory().equals("text")){
-    		this.text = builder.text;
-    	}else if(builder.type.getCategory().equals("richMedia")){
-    		Payload payload = new Payload();
-    		payload.setUrl(builder.url);
-    		Attachment attachment = new Attachment();
-    		attachment.setType(builder.type.getType());
-    		attachment.setPayload(payload);
-    		this.attachment = attachment;
-    	}else{
-    		if(builder.type.getType().equals("generic")){
-    			Payload payload = new Payload();
-        		payload.setElements(builder.elements);
-    			payload.setTemplateType(builder.type.getType());
-        		Attachment attachment = new Attachment();
-        		attachment.setType(builder.type.getCategory());
-        		attachment.setPayload(payload);
-        		this.attachment = attachment;
-    		}
+    	private Message(Builder builder) {
+	    	if(builder.type.getCategory().equals("text")){
+	    		this.text = builder.text;
+	    	}else if(builder.type.getCategory().equals("richMedia")){
+	    		Payload payload = new Payload();
+	    		payload.setUrl(builder.url);
+	    		Attachment attachment = new Attachment();
+	    		attachment.setType(builder.type.getType());
+	    		attachment.setPayload(payload);
+	    		this.attachment = attachment;
+	    	}else{
+	    		if(builder.type.getType().equals("generic")){
+	    			Payload payload = new Payload();
+	        		payload.setElements(builder.elements);
+	    			payload.setTemplateType(builder.type.getType());
+	        		Attachment attachment = new Attachment();
+	        		attachment.setType(builder.type.getCategory());
+	        		attachment.setPayload(payload);
+	        		this.attachment = attachment;
+	    		}
     	}
     }
 
