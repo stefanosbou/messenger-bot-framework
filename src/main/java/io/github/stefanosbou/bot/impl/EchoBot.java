@@ -1,18 +1,38 @@
 package io.github.stefanosbou.bot.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.stefanosbou.bot.MessengerBot;
+import io.github.stefanosbou.model.Message;
 import io.github.stefanosbou.model.Messaging;
 import io.github.stefanosbou.model.Payload;
+import io.github.stefanosbou.util.Utils;
 
 
 public class EchoBot extends MessengerBot{
 
 	@Override
 	protected List<String> actOnText(String senderId, String text) {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> replies = new ArrayList<String>();
+		
+		Message replyMessage = Message.builder()
+				  				.addTemplate()
+				  				.genericTemplate()
+				  				.addElement()
+				  					.title("Welcome to Peter's Hats")
+				  					.imageUrl("http://petersapparel.parseapp.com/img/item100-thumb.png")
+				  					.subtitle("We've got the right hat for everyone.")
+				  					.addButton()
+				  						.buttonTitle("View Website")
+				  						.webUrl("https://petersapparel.parseapp.com/view_item?item_id=100")
+				  					.addButton()
+				  						.buttonTitle("Start Chatting")
+				  						.postback("USER_DEFINED_PAYLOAD")
+				  				.build();
+		
+		replies.add(Utils.objectToJson(replyMessage));
+		return replies;
 	}
 
 	@Override

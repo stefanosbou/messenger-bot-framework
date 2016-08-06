@@ -7,9 +7,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Element {
 
 	@JsonProperty("title")
@@ -20,6 +22,9 @@ public class Element {
 	
 	@JsonProperty("image_url")
 	private String imageUrl;
+	
+	@JsonProperty("item_url")
+	private String itemUrl;
 	
 	@JsonProperty("buttons")
 	private List<Button> buttons;
@@ -74,7 +79,14 @@ public class Element {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-
+	public String getItemUrl() {
+		return itemUrl;
+	}
+	
+	public void setItemUrl(String itemUrl) {
+		this.itemUrl = itemUrl;
+	}
+	
 	/**
 	 * 
 	 * @return The buttons
@@ -114,5 +126,4 @@ public class Element {
 		return new EqualsBuilder().append(title, rhs.title).append(subtitle, rhs.subtitle)
 				.append(imageUrl, rhs.imageUrl).append(buttons, rhs.buttons).isEquals();
 	}
-
 }

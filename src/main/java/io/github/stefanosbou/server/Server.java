@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.stefanosbou.bot.MessengerBot;
+import io.github.stefanosbou.bot.impl.EchoBot;
 import io.github.stefanosbou.model.Entry;
 import io.github.stefanosbou.model.FacebookPayload;
 import io.github.stefanosbou.model.Messaging;
@@ -26,6 +27,7 @@ public class Server extends AbstractVerticle{
 	
 	@Override
 	public void start() {
+		messengerBot = new EchoBot();
 		loadProperties(Utils.CONFIG_FILE);
 		
 	    Router router = Router.router(vertx);
@@ -111,7 +113,6 @@ public class Server extends AbstractVerticle{
 //		List<String> replies = messengerBot.actOnMessage(event);
 //		replies.forEach(reply -> messengerBot.sendReply(reply));
 //		messengerBot.typingReply(senderId, false);
-		
 		messengerBot.actOnMessage(event);
 	}
 

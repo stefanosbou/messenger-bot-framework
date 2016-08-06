@@ -25,7 +25,7 @@ public class Utils {
 	public static final String CONFIG_FILE = "resources/config.properties";
 	private static final String BASE_URL = "https://graph.facebook.com/v2.7/me/messages?access_token=";
 	private static String PROFILE_LINK = "https://graph.facebook.com/v2.7/SENDER_ID?access_token=";
-	private static String ACCESS_TOKEN;
+	private static String ACCESS_TOKEN = null;
 	/*
 	 * @param senderId
 	 * @param message
@@ -103,6 +103,9 @@ public class Utils {
 	
 	public static <T> T jsonToObject(String jsonString, Class<T> clazz){
 		// Jackson lib implementation
+		// ***********************************************************************
+		// Annotations to models have to be modified properly if we switch to Gson
+		// ***********************************************************************
 		T t = null;
 		if (!StringUtils.isEmpty(jsonString)) {
 			try {
@@ -126,6 +129,9 @@ public class Utils {
 	
 	public static String objectToJson(Object obj){
 		// Jackson lib implementation
+		// ***********************************************************************
+		// Annotations to models have to be modified properly if we switch to Gson
+		// ***********************************************************************
 		String str = null;
 		try {
 			str = new ObjectMapper().writeValueAsString(obj);
@@ -142,7 +148,7 @@ public class Utils {
 	}
 
 	public static String getAccessToken() {
-		if(ACCESS_TOKEN.isEmpty()){
+		if(ACCESS_TOKEN == null){
 			Properties properties = new Properties();
 			try {
 				properties.load(new FileInputStream(CONFIG_FILE));

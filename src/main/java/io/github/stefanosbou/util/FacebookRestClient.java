@@ -30,6 +30,7 @@ public class FacebookRestClient {
 					         System.out.println("The request has been completed " + response.getStatus());
 //					         Map<String, String> headers = response.getHeaders();
 //					         JsonNode body = response.getBody();
+					         System.out.println(response.getBody());
 //					         InputStream rawBody = response.getRawBody();
 					    }
 	
