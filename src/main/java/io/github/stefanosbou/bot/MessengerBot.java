@@ -21,12 +21,33 @@ public abstract class MessengerBot {
 	protected abstract List<String> actOnFile(String senderId, Payload payload);
 	protected abstract List<String> actOnTemplate(String senderId, Payload payload);
 	
+//	protected abstract String setGreetingText();
+//	protected abstract String setGetStartedButton();
+//	protected abstract String setPersistentMenu();
+	
 	public abstract List<String> actOnPostback(Messaging event);
 	public abstract List<String> actOnDelivery(Messaging event);
 	
 	public MessengerBot(){
 		users = new HashMap<>();
+		setThreadSettings();
 	}
+
+	private void setThreadSettings() {
+		String greetingText = setGreetingText();
+		if(greetingText != null && !greetingText.isEmpty()){
+			FacebookRestClient.setThreadSettings(greetingText);
+		}
+		String getStartedButton = setGetStartedButton();
+		if(getStartedButton != null && !getStartedButton.isEmpty()){
+			FacebookRestClient.setThreadSettings(getStartedButton);
+		}
+		String persistentMenu = setPersistentMenu();		
+		if(persistentMenu != null && !persistentMenu.isEmpty()){
+			FacebookRestClient.setThreadSettings(persistentMenu);
+		}
+	}
+
 	
 	public void actOnMessage(Messaging event){
 		String senderId = event.getSender().getId();
@@ -78,6 +99,17 @@ public abstract class MessengerBot {
 	}
 	public void typingReply(String senderId, boolean b) {
 		FacebookRestClient.typingReply(senderId, b);
+	}
+	protected String setGreetingText() {
+		return null;
+	}
+
+	protected String setGetStartedButton() {
+		return null;
+	}
+
+	protected String setPersistentMenu() {
+		return null;
 	}
 	
 }

@@ -13,9 +13,28 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class FacebookRestClient {
 	  	  
-	  public static void sendReply(String reply) {
+	public static void markAsRead(String senderId) {
+		sendReply(Utils.generateSenderAction(senderId, SenderAction.mark_seen));
+	}
+
+	public static void typingReply(String senderId, boolean b) {
+		if(b)
+			sendReply(Utils.generateSenderAction(senderId, SenderAction.typing_on));
+		else
+			sendReply(Utils.generateSenderAction(senderId, SenderAction.typing_off));
+	}
+	
+	public static void sendReply(String reply) {
+		  send(Utils.getSendAPI(), reply);
+	}
+	
+	public static void setThreadSettings(String threadSettings) {
+		send(Utils.getThreadSettingsAPI(), threadSettings);
+	}	
+	
+	private static void send(String url, String reply) {
 		  Future<HttpResponse<JsonNode>> future = 
-				  Unirest.post(Utils.getSendAPI())
+				  Unirest.post(url)
 				  	.header("content-type", "application/json")
 				  	.body(reply)
 				  	.asJsonAsync(new Callback<JsonNode>() {
@@ -39,15 +58,4 @@ public class FacebookRestClient {
 					    }
 					});
 	  }
-
-	public static void markAsRead(String senderId) {
-		sendReply(Utils.generateSenderAction(senderId, SenderAction.mark_seen));
-	}
-
-	public static void typingReply(String senderId, boolean b) {
-		if(b)
-			sendReply(Utils.generateSenderAction(senderId, SenderAction.typing_on));
-		else
-			sendReply(Utils.generateSenderAction(senderId, SenderAction.typing_off));
-	}	
 }

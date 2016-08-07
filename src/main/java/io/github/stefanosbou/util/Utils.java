@@ -24,7 +24,8 @@ import io.github.stefanosbou.model.*;
 public class Utils {
 	public static final String CONFIG_FILE = "resources/config.properties";
 	private static final String BASE_URL = "https://graph.facebook.com/v2.7/me/messages?access_token=";
-	private static String PROFILE_LINK = "https://graph.facebook.com/v2.7/SENDER_ID?access_token=";
+	private static final String PROFILE_LINK = "https://graph.facebook.com/v2.7/SENDER_ID?access_token=";
+	private static final String THREAD_SETTINGS_URL = "https://graph.facebook.com/v2.7/me/thread_settings?access_token=";
 	private static String ACCESS_TOKEN = null;
 	/*
 	 * @param senderId
@@ -167,5 +168,9 @@ public class Utils {
 	public static String getProfileLink(String id){
 		String str = StringUtils.replace(PROFILE_LINK, "SENDER_ID", id);
 		return str + getAccessToken();
+	}
+
+	public static String getThreadSettingsAPI() {
+		return THREAD_SETTINGS_URL + getAccessToken();
 	}
 }

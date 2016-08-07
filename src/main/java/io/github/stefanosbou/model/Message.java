@@ -219,6 +219,7 @@ public class Message {
 	}
 	public interface AddButtonMore{
 		AddButton addButton();
+		AddElementTitle addElement();
 		Message build(); 
 	}
 	public interface Build {
